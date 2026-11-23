@@ -56,6 +56,11 @@ def test_invalid_booking(page: Page, base_url: str):
     expect(page.get_by_text("В комнате максимум 4 участника.")).to_be_visible()
     expect(page.get_by_role("status")).not_to_contain_text("Бронирование создано")
 
+    page.get_by_label("Участники").fill("-1")
+    submit_booking(page)
+    expect(page.get_by_text("Количество участников — от 1 до 20.")).to_be_visible()
+    expect(page.get_by_role("status")).not_to_contain_text("Бронирование создано")
+
 
 @pytest.mark.xfail(
     strict=True,
